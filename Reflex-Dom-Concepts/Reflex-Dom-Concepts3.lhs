@@ -1,5 +1,5 @@
 > {-# LANGUAGE RecursiveDo #-}
-> module Multiple where
+> module Main where
 > import Reflex
 > import Reflex.Dom
 > import Control.Monad
@@ -19,3 +19,5 @@ What about a list containing a definite number of Simple types?
 >   return value
 >
 > main = mainWidget $ listWidget [One,Two,Three,Two,One] >>= display
+
+
