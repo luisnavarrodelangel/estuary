@@ -1,5 +1,31 @@
+
+Now we experiment with building widgets for more complex types built on top of
+the Simple type, and using the simpleWidget definition. For example, a tuplet
+composed of a pair of Simple values and edited with a pair of simpleWidgets.
+
+First create a new module for the Simple Type and simpleWidget function. Save the code in an independent file as Simple.hs
+
 > {-# LANGUAGE RecursiveDo #-}
-> module Tuple where
+> module Simple where
+> import Reflex
+> import Reflex.Dom
+> import Control.Monad
+> import Data.Map
+> import Data.Functor.Misc -- For Const2
+
+> data Simple = One | Two | Three deriving (Show)
+
+> simpleWidget :: MonadWidget t m => Simple -> m (Dynamic t Simple)
+> simpleWidget i = el "div" $ do
+>   buttons <- forM [One,Two,Three] (\x -> liftM (x <$) (button (show x)))
+>   value <- holdDyn i (leftmost buttons)
+>   display value
+>   return value
+
+Create a new file and type the following code.
+
+> {-# LANGUAGE RecursiveDo #-}
+> module Main where
 > import Reflex
 > import Reflex.Dom
 > import Control.Monad
@@ -7,9 +33,6 @@
 > import Data.Functor.Misc -- For Const2
 > import Simple
 
-Now we experiment with building widgets for more complex types built on top of
-the Simple type, and using the simpleWidget definition. For example, a tuplet
-composed of a pair of Simple values and edited with a pair of simpleWidgets.
 
 > type Tuplet = (Simple,Simple)
 >
